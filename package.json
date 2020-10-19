@@ -1,0 +1,8 @@
+{
+  "name": "social_api",
+  "version": "1.0.0",
+  "description": "A mini social network to learn",
+  "main": "src/server.ts",
+  "author": "HOA NGUYEN",
+  "license": "MIT"
+}
