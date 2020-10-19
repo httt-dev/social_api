@@ -20,3 +20,7 @@
 - git remote add origin https://github.com/httt-dev/social_api.git
 - git branch -M master
 - git push -u origin master
+
+##Tsc config
+
+- tsc --init
