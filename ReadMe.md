@@ -24,3 +24,7 @@
 ##Tsc config
 
 - tsc --init
+
+##kill process on port 9229
+
+- sudo kill \$(sudo lsof -t -i:9229)
