@@ -26,7 +26,11 @@ class App{
 
     private async connectToDatabase(){
         try{
-            const connectionString  = "mongodb+srv://social:Abc12345@master.dlu4d.mongodb.net/social?retryWrites=true&w=majority";
+            const connectionString  = process.env.MONGODB_URI;
+            if(!connectionString){
+                console.log('Connection string not define');
+                return;
+            }
             await mongoose.connect(connectionString, {
                 useNewUrlParser: true,
                 useUnifiedTopology: true,
