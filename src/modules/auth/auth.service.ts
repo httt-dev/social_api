@@ -35,4 +35,12 @@ export default class AuthService {
     //     const expiresIn :number = 3600;
     //     return {token:jwt.sign(payload , secret,{expiresIn:expiresIn})};
     // }
+
+    public async getCurrentLoginUser(userId:string):Promise<IUser> {
+        const user = await this.userSchema.findById(userId);
+        if(!user){
+            throw new HttpException(404, `User is not exists`);
+        }
+        return user;
+    }
 }

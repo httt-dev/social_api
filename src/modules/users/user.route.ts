@@ -1,5 +1,5 @@
 import { Route } from "@core/interfaces";
-import validationMiddleware from "@core/middleware/validation.middleware";
+import { validationMiddleware } from "@core/middleware";
 import { Router } from "express";
 import RegisterDto from "./dtos/register.dto";
 import UserController from "./users.controller";
