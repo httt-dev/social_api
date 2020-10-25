@@ -19,9 +19,11 @@ class App{
         this.app = express();
         this.port = process.env.PORT || 5000;
         this.production = process.env.NODE_ENV == 'production' ? true : false;
-        
+        //connect to db
         this.connectToDatabase();
+        //declare middleware 
         this.initializeMiddlewares();
+        //init route must be bellow other config
         this.initializeRoutes(routes);
     }
     private initializeRoutes(routes : Route[]){
@@ -66,7 +68,9 @@ class App{
             this.app.use(morgan("dev"));
             this.app.use(cors({origin:true, credentials:true}));
         }
+        //custom middleware
         this.app.use(errorMiddleware);
+        //allow json data express
         this.app.use(express.json());
         this.app.use(express.urlencoded({extended:true}));
     }
