@@ -25,9 +25,12 @@ class App{
         this.initializeMiddlewares();
         //init route must be bellow other config
         this.initializeRoutes(routes);
+        //call custome error middleware at the last (fix bug return invalid json )
+        this.initializeErrorMiddleware();
     }
     private initializeRoutes(routes : Route[]){
         routes.forEach((route) => {
+            Logger.info(route.router);
             this.app.use('/' , route.router);
         })
     }
@@ -73,9 +76,12 @@ class App{
         this.app.use(express.json());
         this.app.use(express.urlencoded({extended:true}));
         //custom middleware
-        this.app.use(errorMiddleware);
+        //this.app.use(errorMiddleware);
     }
 
+    private initializeErrorMiddleware(){
+        this.app.use(errorMiddleware);
+    }
 
 }
 

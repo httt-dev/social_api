@@ -9,7 +9,7 @@ export default class UserController{
         try{
             const model : RegisterDto = req.body;
             const tokenData : TokenData= await this.userService.createUser(model);
-            res.status(201).json({tokenData});
+            res.status(201).json(tokenData);
         }catch(error){
             next(error); 
         }

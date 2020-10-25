@@ -1,4 +1,4 @@
-import { IsNotEmpty, MinLength } from 'class-validator';
+import { IsEmail, IsNotEmpty, MinLength } from 'class-validator';
 export default class RegisterDto {
 
     constructor(
@@ -18,6 +18,7 @@ export default class RegisterDto {
       @IsNotEmpty()
       public last_name: string;
       @IsNotEmpty()
+      @IsEmail()
       public email: string;
       @IsNotEmpty()
       @MinLength(6,{message:'Password must be greater 6 character'})
