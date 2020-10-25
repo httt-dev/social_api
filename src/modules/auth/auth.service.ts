@@ -14,7 +14,8 @@ export default class AuthService {
         if(isEmptyObject(model)){
             throw new HttpException(400, "Model is empty");
         }
-        const user = await this.userSchema.findOne({email:model.email});
+        // const user = await this.userSchema.findOne({email:model.email});
+        const user = await this.userSchema.findOne({email:model.email}).exec();
         if(!user){
             throw new HttpException(409 , `Your email ${model.email} is not register`);
         }
@@ -37,7 +38,8 @@ export default class AuthService {
     // }
 
     public async getCurrentLoginUser(userId:string):Promise<IUser> {
-        const user = await this.userSchema.findById(userId);
+        // const user = await this.userSchema.findById(userId);
+        const user = await this.userSchema.findById(userId).exec();
         if(!user){
             throw new HttpException(404, `User is not exists`);
         }
