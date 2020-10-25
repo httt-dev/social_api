@@ -68,11 +68,12 @@ class App{
             this.app.use(morgan("dev"));
             this.app.use(cors({origin:true, credentials:true}));
         }
-        //custom middleware
-        this.app.use(errorMiddleware);
+
         //allow json data express
         this.app.use(express.json());
         this.app.use(express.urlencoded({extended:true}));
+        //custom middleware
+        this.app.use(errorMiddleware);
     }
 
 
