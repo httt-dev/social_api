@@ -8,6 +8,7 @@ import bcryptjs from "bcryptjs";
 import IUser from "./users.interface";
 import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
+import { IPagination } from "@core/interfaces";
 
 class UserService {
 	public userSchema = UserSchema;
@@ -180,6 +181,72 @@ class UserService {
 			throw new HttpException(404, `User is not exists`);
 		}
 		return user;
+	}
+
+	public async getAll(): Promise<IUser[]> {
+		// const user = await this.userSchema.findById(userId);
+		const users = await this.userSchema.find().exec();
+
+		return users;
+	}
+
+	// public async getAllPaging(
+	// 	page: number,
+	// 	pageSize: number = 10
+	// ): Promise<IUser[]> {
+	// 	const users = await this.userSchema
+	// 		.find()
+	// 		.skip((page - 1) * pageSize)
+	// 		.limit(pageSize)
+	// 		.exec();
+
+	// 	return users;
+	// }
+
+	public async getAllPaging(
+		keyword: string,
+		page: number
+	): Promise<IPagination<IUser>> {
+		const pageSize: number = +(process.env.PAGE_SIZE || 1);
+		let query = {};
+		if (keyword) {
+			query = {
+				$or: [
+					{ email: keyword },
+					{ first_name: keyword },
+					{ last_name: keyword },
+				],
+			};
+		}
+
+		const users = await this.userSchema
+			.find(query)
+			.skip((page - 1) * pageSize)
+			.limit(pageSize)
+			.exec();
+		const rowCount = await this.userSchema.find(query).count();
+
+		return {
+			total: rowCount,
+			page: page,
+			pageSize: pageSize,
+			items: users,
+		} as IPagination<IUser>;
+	}
+
+	public async deleteUser(userId: string): Promise<IUser> {
+		try {
+			const deletedUser = await this.userSchema
+				.findByIdAndDelete(userId)
+				.exec();
+
+			if (!deletedUser) {
+				throw new HttpException(409, "User id is invalid");
+			}
+			return deletedUser;
+		} catch (err) {
+			throw new HttpException(409, "Something error when delete user");
+		}
 	}
 
 	private createToken(user: IUser): TokenData {
